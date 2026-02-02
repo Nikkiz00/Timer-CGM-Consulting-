@@ -252,10 +252,74 @@ class TimerApp {
         this.pauseTimer();
         this.updateDisplay();
 
-        // Auto-reset dopo 1.5 secondi invece di mostrare il modale
+        this.triggerExplosion();
+
+        // Mostra il modale di fine dopo un breve ritardo
         setTimeout(() => {
-            this.resetTimer();
-        }, 1500);
+            this.endModal.classList.remove('hidden');
+        }, 800);
+    }
+
+    private triggerExplosion(): void {
+        document.body.classList.add('shake');
+        setTimeout(() => document.body.classList.remove('shake'), 500);
+
+        const colors = ['#8E05C2', '#FF3B30', '#FFFFFF', '#700B97', '#FFD700', '#00FF00', '#00FFFF'];
+        const particlesCount = 100;
+
+        // Start position (center of screen, generally where the timer is)
+        const x = window.innerWidth / 2;
+        const y = window.innerHeight / 2;
+
+        for (let i = 0; i < particlesCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('explosion-particle');
+            document.body.appendChild(particle);
+
+            // Random color
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.backgroundColor = color;
+            particle.style.boxShadow = `0 0 10px ${color}`; // Aggiunge glow
+
+            // Random size
+            const size = Math.random() * 8 + 4; // 4px to 12px
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+
+            // Random start position near center
+            particle.style.left = `${x}px`;
+            particle.style.top = `${y}px`;
+
+            // Physics calculation
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = 200 + Math.random() * 400; // Increase velocity range
+
+            const destX = Math.cos(angle) * velocity;
+            const destY = Math.sin(angle) * velocity;
+
+            // Random rotation
+            const rotation = Math.random() * 360;
+
+            // Animate using Web Animations API
+            const animation = particle.animate([
+                {
+                    transform: `translate(0, 0) rotate(0deg) scale(1)`,
+                    opacity: 1
+                },
+                {
+                    transform: `translate(${destX}px, ${destY}px) rotate(${rotation}deg) scale(0)`,
+                    opacity: 0
+                }
+            ], {
+                duration: 1000 + Math.random() * 500,
+                easing: 'cubic-bezier(0.25, 1, 0.5, 1)', // Decelerate
+                fill: 'forwards'
+            });
+
+            animation.onfinish = () => {
+                particle.remove();
+            };
+        }
     }
 
     /**

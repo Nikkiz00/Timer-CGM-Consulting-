@@ -1,0 +1,530 @@
+/* CSS Reset & Variables */
+:root {
+    --bg-color: #000000;
+    --card-bg: #111111;
+    /* Darker card background */
+    --primary: #3E065F;
+    --primary-hover: #540D7D;
+    --secondary: #700B97;
+    --accent: #8E05C2;
+    --text-main: #FFFFFF;
+    --text-muted: #888888;
+    --danger: #FF3B30;
+    --font-inter: 'Inter', sans-serif;
+
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 8px;
+
+    --glow-shadow: 0 0 20px rgba(142, 5, 194, 0.3);
+    --glow-danger: 0 0 30px rgba(255, 59, 48, 0.5);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-inter);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 1000px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-height: 900px;
+}
+
+/* Header */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.settings-btn {
+    background: #1a1a1a;
+    border: none;
+    color: var(--text-muted);
+    padding: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.settings-btn:hover {
+    background: #333;
+    color: var(--text-main);
+}
+
+/* Timer Display */
+.timer-display-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    transition: box-shadow 0.3s ease;
+}
+
+.timer-cards {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 10%;
+    /* Increased to accommodate labels */
+    width: 100%;
+}
+
+.timer-card {
+    background-color: #0F0F13;
+    min-width: 200px;
+    width: auto;
+    /* Dynamic width */
+    height: 240px;
+    padding: 0 2rem;
+    /* Side padding pushes borders based on content */
+    border-radius: var(--radius-lg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    position: relative;
+    /* For pseudo-element label */
+    flex-shrink: 0;
+}
+
+/* Pseudo-element labels strictly attached to their card */
+.timer-card::after {
+    position: absolute;
+    bottom: -30px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Specific labels */
+.timer-card:first-child::after {
+    content: "MINUTES";
+}
+
+.timer-card:last-child::after {
+    content: "SECONDS";
+}
+
+.timer-card span {
+    font-size: 7rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+#minutes {
+    color: white;
+}
+
+#seconds {
+    color: var(--accent);
+}
+
+.timer-separator {
+    font-size: 4rem;
+    font-weight: 700;
+    color: #333;
+    margin-top: -20px;
+}
+
+.labels {
+    display: none;
+    /* Old external labels hidden */
+}
+
+
+
+.progress-container {
+    width: 100%;
+    max-width: 600px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+#progress-percent {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.progress-track {
+    background-color: #1a1a1a;
+    height: 6px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    background-color: #333;
+    height: 100%;
+    transition: width 0.3s linear;
+}
+
+/* Control Panel */
+.control-panel {
+    background-color: #0F0F13;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    border: 1px solid #1a1a1a;
+}
+
+.controls-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.control-group label {
+    display: block;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.5rem;
+}
+
+.value-highlight {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Slider */
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: #1a1a1a;
+    border-radius: 5px;
+    outline: none;
+    margin: 1rem 0;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
+
+.slider-marks {
+    display: flex;
+    justify-content: space-between;
+    color: #444;
+    font-size: 0.75rem;
+}
+
+/* Inputs */
+.input-wrapper {
+    background: #111;
+    /* Darker inner input */
+    border: 1px solid #333;
+    border-radius: var(--radius-md);
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 56px;
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--accent);
+}
+
+.input-wrapper input {
+    background: transparent;
+    border: none;
+    color: white;
+    font-family: var(--font-inter);
+    font-size: 1.1rem;
+    width: 100%;
+    outline: none;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+/* Actions */
+.action-buttons {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+}
+
+.btn {
+    border: none;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    font-family: var(--font-inter);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, var(--secondary) 0%, var(--accent) 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(112, 11, 151, 0.4);
+}
+
+.btn-primary:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #1a1a1a;
+    color: white;
+    border: 1px solid #333;
+}
+
+.btn-secondary:hover {
+    background: #252525;
+}
+
+/* Modals */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+.modal-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal {
+    background: #151515;
+    padding: 2.5rem;
+    border-radius: var(--radius-lg);
+    width: 400px;
+    text-align: center;
+    border: 1px solid #333;
+    box-shadow: var(--glow-shadow);
+    position: relative;
+    transform: scale(1);
+    transition: transform 0.3s;
+}
+
+.modal-overlay.hidden .modal {
+    transform: scale(0.95);
+}
+
+.close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.modal-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #2a2a2a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    margin: 0 auto 1.5rem;
+}
+
+.modal-icon.warning {
+    background: rgba(112, 11, 151, 0.2);
+    color: var(--accent);
+}
+
+.modal-icon.success {
+    background: rgba(112, 11, 151, 0.2);
+    color: var(--accent);
+}
+
+.modal h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+}
+
+.modal p {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    line-height: 1.5;
+    font-size: 0.9rem;
+}
+
+.modal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* Red Glow State */
+body.timer-critical .timer-display-section {}
+
+body.timer-critical .timer-card {
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+}
+
+body.timer-critical #minutes,
+body.timer-critical #seconds,
+body.timer-critical #progress-percent {
+    color: #ff4444;
+}
+
+body.timer-critical .progress-fill {
+    background-color: #ff4444;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .app-container {
+        padding: 1rem;
+        max-height: none;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .timer-cards {
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .timer-card {
+        min-width: 140px;
+        /* Smaller min-width for tablets */
+        height: 180px;
+        padding: 0 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .timer-card::after {
+        bottom: -25px;
+        font-size: 0.75rem;
+    }
+
+    .timer-card span {
+        font-size: 5rem;
+    }
+
+    .timer-separator {
+        font-size: 3rem;
+        margin-top: -10px;
+    }
+
+    .controls-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .action-buttons {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-header {
+        margin-bottom: 1rem;
+    }
+
+    .timer-cards {
+        gap: 0.25rem;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: nowrap;
+        /* Ensure they stay on one line */
+    }
+
+    .timer-card {
+        /* On very small screens, let them shrink below min-width but maintain aspect ratio logic */
+        min-width: 0;
+        flex: 1;
+        /* Distribute space evenly */
+        width: auto;
+        height: 45vw;
+        /* Proportional height */
+        max-height: 180px;
+        padding: 0 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .timer-card::after {
+        bottom: -22px;
+        font-size: 0.65rem;
+    }
+
+    .timer-card span {
+        /* Fluid typography for small screens */
+        font-size: clamp(2.5rem, 15vw, 4rem);
+    }
+
+    .timer-separator {
+        font-size: 2rem;
+    }
+}

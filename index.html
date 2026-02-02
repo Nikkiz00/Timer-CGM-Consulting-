@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Timer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#8E05C2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 6V12L16 14" stroke="#8E05C2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Web Timer</span>
+            </div>
+            <button class="settings-btn" aria-label="Impostazioni">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.09a2 2 0 0 1-1-1.74v-.47a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.39a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                </svg>
+            </button>
+        </header>
+
+        <!-- Timer Display -->
+        <main class="timer-display-section">
+            <div class="timer-cards">
+                <div class="timer-card">
+                    <span id="minutes">25</span>
+                </div>
+                <div class="timer-separator">:</div>
+                <div class="timer-card">
+                    <span id="seconds">00</span>
+                </div>
+            </div>
+            
+            <div class="labels">
+                <span>MINUTES</span>
+                <span>SECONDS</span>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-info">
+                    <span>Progress</span>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="progress-track">
+                    <div id="progress-bar" class="progress-fill" style="width: 0%"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Control Panel -->
+        <section class="control-panel">
+            <div class="controls-grid">
+                <!-- Manual Duration -->
+                <div class="control-group">
+                    <div class="label-row">
+                        <label>Duration</label>
+                        <span id="duration-display" class="value-highlight">25 min</span>
+                    </div>
+                    <input type="range" id="duration-slider" min="1" max="120" value="25" class="slider">
+                    <div class="slider-marks">
+                        <span>1m</span>
+                        <span>30m</span>
+                        <span>60m</span>
+                        <span>120m</span>
+                    </div>
+                </div>
+
+                <!-- End Time -->
+                <div class="control-group">
+                    <label>End Time</label>
+                    <div class="input-wrapper">
+                        <span class="icon">🕒</span>
+                        <input type="time" id="end-time-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button id="start-btn" class="btn btn-primary">
+                    <span class="icon">▶</span>
+                    Start Focus
+                </button>
+                <button id="reset-btn" class="btn btn-secondary">
+                    <span class="icon">↺</span>
+                    Reset
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modals -->
+    <!-- Reset Confirmation Modal -->
+    <div id="reset-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <button class="close-modal" data-target="reset-modal">&times;</button>
+            <div class="modal-icon warning">
+                <span>⚠</span>
+            </div>
+            <h3>Conferma Reset</h3>
+            <p>Sei sicuro di voler resettare il timer?<br>I progressi della sessione corrente andranno persi.</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary close-modal-btn" data-target="reset-modal">Annulla</button>
+                <button id="confirm-reset-btn" class="btn btn-primary">Conferma Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Time's Up Modal -->
+    <div id="end-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-icon success">
+                <span>🔕</span>
+            </div>
+            <h3>Tempo Scaduto!</h3>
+            <p>La sessione è terminata</p>
+            <div class="modal-actions">
+                <button id="restart-btn" class="btn btn-secondary">Ricomincia</button>
+                <button class="btn btn-primary close-modal-btn" data-target="end-modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./dist/app.js"></script>
+</body>
+</html>

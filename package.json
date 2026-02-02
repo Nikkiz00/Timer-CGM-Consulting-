@@ -1,0 +1,14 @@
+{
+    "name": "web-timer",
+    "version": "1.0.0",
+    "description": "Web Timer Application",
+    "scripts": {
+        "build": "tsc",
+        "watch": "tsc -w"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "typescript": "^5.0.0"
+    }
+}
